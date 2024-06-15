@@ -22,11 +22,13 @@ def create_category(request):
             {'message': serializer.errors},
             status=status.HTTP_400_BAD_REQUEST
         )
-    
+
+
 @api_view(['GET'])
 def get_all_categories(request):
     categories = Category.objects.all()
     serializer = CategorySerializer(categories, many=True)
+    
     return response.Response(
         {'categories': serializer.data},
         status=status.HTTP_200_OK
