@@ -11,7 +11,7 @@ def create_user(request):
 
     if serializer.is_valid():
         user = serializer.save()
-        user_data = UserSerializer(user).data
+        user_data = UserSerialzier(user).data
 
         return response.Response(
             {'new_user': user_data},
