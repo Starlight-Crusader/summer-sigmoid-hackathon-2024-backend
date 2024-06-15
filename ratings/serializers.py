@@ -21,3 +21,7 @@ class GetRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = '__all__'
+
+
+class GetRatingsByProductSerializers(serializers.Serializer):
+    name = serializers.CharField()
