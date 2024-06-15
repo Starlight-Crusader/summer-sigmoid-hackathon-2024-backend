@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework import response, status
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, GetProductSerializer
 from .models import Product
 
 
@@ -27,18 +27,20 @@ def create_product(request):
 @api_view(['GET'])
 def get_all_products(request):
     products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
+    serializer = GetProductSerializer(products, many=True)
     
     return response.Response(
         {'products': serializer.data},
         status=status.HTTP_200_OK
     )
 
+
 @api_view(['GET'])
 def get_product_by_id(request, product_id):
     try:
         product = Product.objects.get(id=product_id)
-        serializer = ProductSerializer(product)
+        serializer = GetProductSerializer(product)
+        
         return response.Response(
             {'product': serializer.data},
             status=status.HTTP_200_OK
@@ -48,6 +50,7 @@ def get_product_by_id(request, product_id):
             {'message': 'Product not found.'},
             status=status.HTTP_404_NOT_FOUND
         )
+
 
 @api_view(['DELETE'])
 def delete_all_products(request):
@@ -59,11 +62,13 @@ def delete_all_products(request):
         status=status.HTTP_204_NO_CONTENT
     )
 
+
 @api_view(['DELETE'])
 def delete_product_by_id(request, product_id):
     try:
         product = Product.objects.get(id=product_id)
         product.delete()
+        
         return response.Response(
             {'message': f'Product with id {product_id} has been deleted.'},
             status=status.HTTP_204_NO_CONTENT
