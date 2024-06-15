@@ -3,6 +3,7 @@ from django.contrib.postgres.fields import ArrayField
 
 
 class Category(models.Model):
+    name = models.CharField(max_length=50)
     parameters_list = ArrayField(
         models.CharField(max_length=40),
         blank=False,
