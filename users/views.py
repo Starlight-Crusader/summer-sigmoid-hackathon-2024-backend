@@ -1,8 +1,6 @@
-from rest_framework.views import APIView
 from rest_framework import response, status
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
-
 from serializers import UserSerialzier
 
 
@@ -16,7 +14,7 @@ def create_user(request):
         user_data = UserSerializer(user).data
 
         return response.Response(
-            {'user': user_data},
+            {'new_user': user_data},
             status=status.HTTP_201_CREATED
         )
     else:
