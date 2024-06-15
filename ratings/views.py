@@ -176,3 +176,24 @@ def get_tinder_cards(request, category_id):
             {'message': serializer.errors},
             status=status.HTTP_400_BAD_REQUEST
         )
+    
+
+@api_view(['GET'])
+def get_random_ratings_by_category(request, category_id):
+    category = None
+    try:
+        category = Category.objects.get(id=category_id)
+    except Category.DoesNotExist:
+        return response.Response(
+            {'message': "Category does not exist!"},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    avg_author = User.objects.get(username="KidNamedAverage")
+    ratings = Rating.objects.filter(category=category, author=avg_author)
+    ratings_data = GetRatingSerializer(ratings, many=True)
+
+    return response.Response(
+        {'ratings_data': ratings_data},
+        status=status.HTTP_200_OK
+    )
