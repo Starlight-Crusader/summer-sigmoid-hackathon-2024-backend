@@ -6,19 +6,19 @@ from .serializers import RatingSerializer, GetRatingSerializer, GetRatingsByProd
 from users.models import User
 
 
-def get_ratings_by_prod_name(prod_name):
+def search_ratings_by_prod_name(prod_name):
     product = Product.objects.get(name=prod_name)
     return Rating.objects.filter(product=product)
 
 
 @api_view(['GET'])
-def get_reviews_by_name(request):
+def get_ratings_by_pn(request):
     serializer = GetRatingsByProductSerializers(data = request.data)
     serializer.is_valid(raise_exception=True)
     
     if serializer.is_valid():
         prod_name = serializer.validated_data.get("name")
-        ratings = get_ratings_by_prod_name(prod_name)
+        ratings = search_ratings_by_prod_name(prod_name)
         ratings_data = GetRatingSerializer(ratings, many = True).data
     
         return response.Response(
