@@ -49,3 +49,28 @@ def get_category_by_id(request, category_id):
             {'message': 'Category not found.'},
             status=status.HTTP_404_NOT_FOUND
         )
+    
+@api_view(['DELETE'])
+def delete_all_categories(request):
+    categories = Category.objects.all()
+    categories.delete()
+    
+    return response.Response(
+        {'message': 'All categories have been deleted.'},
+        status=status.HTTP_204_NO_CONTENT
+    )
+
+@api_view(['DELETE'])
+def delete_category_by_id(request, category_id):
+    try:
+        category = Category.objects.get(id=category_id)
+        category.delete()
+        return response.Response(
+            {'message': f'Category with id {category_id} has been deleted.'},
+            status=status.HTTP_204_NO_CONTENT
+        )
+    except Category.DoesNotExist:
+        return response.Response(
+            {'message': 'Category not found.'},
+            status=status.HTTP_404_NOT_FOUND
+        )
