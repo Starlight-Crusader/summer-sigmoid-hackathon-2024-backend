@@ -12,7 +12,7 @@ def search_ratings_by_prod_name(prod_name):
     return Rating.objects.filter(product=product)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def get_ratings_by_pn(request):
     serializer = GetRatingsByProductSerializers(data = request.data)
     serializer.is_valid(raise_exception=True)
