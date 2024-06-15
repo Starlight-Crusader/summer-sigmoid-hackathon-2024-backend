@@ -33,3 +33,18 @@ def get_all_categories(request):
         {'categories': serializer.data},
         status=status.HTTP_200_OK
     )
+
+@api_view(['GET'])
+def get_category_by_id(request, category_id):
+    try:
+        category = Category.objects.get(id=category_id)
+        serializer = CategorySerializer(category)
+        return response.Response(
+            {'category': serializer.data},
+            status=status.HTTP_200_OK
+        )
+    except Category.DoesNotExist:
+        return response.Response(
+            {'message': 'Category not found.'},
+            status=status.HTTP_404_NOT_FOUND
+        )
