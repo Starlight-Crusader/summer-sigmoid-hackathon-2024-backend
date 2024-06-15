@@ -1,10 +1,11 @@
 from rest_framework import response, status
 from rest_framework.decorators import api_view
-from serializers import CategorySerializer
-from models import Category
+from .serializers import CategorySerializer
+from .models import Category
+from django.views.decorators.csrf import csrf_exempt
 
-
-api_view(['DELETE'])
+@csrf_exempt
+@api_view(['POST'])
 def create_category(request):
     serializer = CategorySerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
