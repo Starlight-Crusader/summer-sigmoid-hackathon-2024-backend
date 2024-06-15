@@ -190,8 +190,9 @@ def get_random_ratings_by_category(request, category_id):
         )
     
     avg_author = User.objects.get(username="KidNamedAverage")
-    ratings = Rating.objects.filter(category=category, author=avg_author)
-    ratings_data = GetRatingSerializer(ratings, many=True)
+    products_in_category = Product.objects.filter(category=category)
+    ratings = Rating.objects.filter(product__in=products_in_category, author=avg_author)
+    ratings_data = GetRatingSerializer(ratings, many=True).data
 
     return response.Response(
         {'ratings_data': ratings_data},
