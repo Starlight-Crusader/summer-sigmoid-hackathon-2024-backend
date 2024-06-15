@@ -12,3 +12,4 @@ class Rating(models.Model):
         blank=True,
         null=True
     )
+    comment = models.CharField(max_length=250, blank=True)
