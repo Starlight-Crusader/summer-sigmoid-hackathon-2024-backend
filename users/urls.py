@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     path('create', views.create_user),
-    path('drop', views.),
-    path('drop/<int:user_id>', TokenRefreshView.as_view(), name='token_refresh'),
+    path('drop', views.delete_all_users),
+    path('drop/<int:user_id>', views.delete_user_by_id),
 ]
