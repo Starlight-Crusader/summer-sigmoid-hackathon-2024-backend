@@ -47,3 +47,39 @@ def delete_user_by_id(request, user_id):
             {'message': 'User not found.'},
             status=status.HTTP_404_NOT_FOUND
         )
+    
+@api_view(['PATCH'])
+def increment_value(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+        user.score += 1
+        user.save()
+        
+        serializer = UserSerializer(user)
+        return response.Response(
+            {'user': serializer.data},
+            status=status.HTTP_200_OK
+        )
+    except User.DoesNotExist:
+        return response.Response(
+            {'message': 'User not found.'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+@api_view(['PATCH'])
+def decrement_value(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+        user.score -= 1
+        user.save()
+        
+        serializer = UserSerializer(user)
+        return response.Response(
+            {'user': serializer.data},
+            status=status.HTTP_200_OK
+        )
+    except User.DoesNotExist:
+        return response.Response(
+            {'message': 'User not found.'},
+            status=status.HTTP_404_NOT_FOUND
+        )
