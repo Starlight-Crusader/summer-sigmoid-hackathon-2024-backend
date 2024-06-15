@@ -2,7 +2,7 @@ from rest_framework import response, status
 from rest_framework.decorators import api_view
 from .models import Rating
 from products.models import Product
-from .serializers import RatingSerializer, GetRatingSerializer, GetRatingsByProductSerializers, GetTinderCardsSerialzier
+from .serializers import RatingSerializer, GetRatingSerializer, GetRatingsByProductSerializers, GetTinderCardsSerialzier, GetAvgsByIdsSerialzier
 from users.models import User
 from categories.models import Category
 
@@ -198,3 +198,25 @@ def get_random_ratings_by_category(request, category_id):
         {'ratings_data': ratings_data},
         status=status.HTTP_200_OK
     )
+
+
+@api_view(['POST'])
+def get_avg_by_ids(request):
+    serialzier = GetAvgsByIdsSerialzier(data=request.data)
+    serialzier.is_valid(raise_exception=True)
+
+    if serialzier.is_valid():
+        ids = serialzier.validated_data.get("ids")
+        products = Product.objects.filter(id__in=ids)
+        ratings = Rating.objects.filter(author=User.objects.get(username="KidNamedAverage"), product__in=products)
+        ratings_data = GetRatingSerializer(ratings, many=True).data
+
+        return response.Response(
+            {'ratings_data': ratings_data},
+            status=status.HTTP_200_OK
+        )
+    else:
+        return response.Response(
+            {'message': serialzier.errors},
+            status=status.HTTP_400_BAD_REQUEST
+        )

@@ -31,3 +31,8 @@ class GetTinderCardsSerialzier(serializers.Serializer):
     parameters_priority = serializers.ListField(
         child=serializers.CharField()
     )
+
+class GetAvgsByIdsSerialzier(serializers.Serializer):
+    ids = serializers.ListField(
+        child=serializers.IntegerField()
+    )
