@@ -1,17 +1,17 @@
 from rest_framework import response, status
 from rest_framework.decorators import api_view
 from .models import User
-from .serializers import UserSerialzier
+from .serializers import UserSerializer
 
 
 @api_view(['POST'])
 def create_user(request):
-    serializer = UserSerialzier(data=request.data)
+    serializer = UserSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
 
     if serializer.is_valid():
         user = serializer.save()
-        user_data = UserSerialzier(user).data
+        user_data = UserSerializer(user).data
 
         return response.Response(
             {'new_user': user_data},
