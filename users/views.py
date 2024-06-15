@@ -1,7 +1,7 @@
 from rest_framework import response, status
 from rest_framework.decorators import api_view
-from django.contrib.auth.models import User
-from serializers import UserSerialzier
+from .models import User
+from .serializers import UserSerialzier
 
 
 @api_view(['POST'])
