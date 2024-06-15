@@ -1,17 +1,17 @@
 from rest_framework import response, status
 from rest_framework.decorators import api_view
 from .models import User
-from .serializers import UserSerialzier
+from .serializers import UserSerializer
 
 
 @api_view(['POST'])
 def create_user(request):
-    serializer = UserSerialzier(data=request.data)
+    serializer = UserSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
 
     if serializer.is_valid():
         user = serializer.save()
-        user_data = UserSerialzier(user).data
+        user_data = UserSerializer(user).data
 
         return response.Response(
             {'new_user': user_data},
@@ -22,7 +22,8 @@ def create_user(request):
             {'message': serializer.errors},
             status=status.HTTP_400_BAD_REQUEST
         )
-    
+
+
 @api_view(['DELETE'])
 def delete_all_users(request):
 
@@ -30,8 +31,9 @@ def delete_all_users(request):
     
     return response.Response(
         {'message': 'All users have been deleted.'},
-        status=status.HTTP_200_NO_CONTENT
+        status=status.HTTP_200_OK
     )
+
 
 @api_view(['DELETE'])
 def delete_user_by_id(request, user_id):
@@ -40,7 +42,7 @@ def delete_user_by_id(request, user_id):
         user.delete()
         return response.Response(
             {'message': f'User with id {user_id} has been deleted.'},
-            status=status.HTTP_200_NO_CONTENT
+            status=status.HTTP_200_OK
         )
     except User.DoesNotExist:
         return response.Response(
