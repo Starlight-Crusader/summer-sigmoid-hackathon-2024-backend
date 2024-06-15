@@ -25,3 +25,9 @@ class GetRatingSerializer(serializers.ModelSerializer):
 
 class GetRatingsByProductSerializers(serializers.Serializer):
     name = serializers.CharField()
+
+
+class GetTinderCardsSerialzier(serializers.Serializer):
+    parameters_priority = serializers.ListField(
+        child=serializers.CharField()
+    )

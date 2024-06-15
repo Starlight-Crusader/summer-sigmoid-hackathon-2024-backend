@@ -2,6 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework import response, status
 from .serializers import ProductSerializer, GetProductSerializer
 from .models import Product
+from ratings.models import Rating
+from users.models import User
 
 
 @api_view(['POST'])
@@ -12,6 +14,8 @@ def create_product(request):
     if serializer.is_valid():
         product = serializer.save()
         product_data = ProductSerializer(product).data
+
+        avg_rating = Rating.objects.create(author=User.objects.get(username="KidNamedAverage"), product=product, values=[0, 0, 0, 0, 0])
 
         return response.Response(
             {'new_product': product_data},
