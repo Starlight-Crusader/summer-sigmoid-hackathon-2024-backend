@@ -49,7 +49,8 @@ def delete_user_by_id(request, user_id):
             {'message': 'User not found.'},
             status=status.HTTP_404_NOT_FOUND
         )
-    
+
+
 @api_view(['PATCH'])
 def increment_value(request, user_id):
     try:
@@ -67,6 +68,7 @@ def increment_value(request, user_id):
             {'message': 'User not found.'},
             status=status.HTTP_404_NOT_FOUND
         )
+
 
 @api_view(['PATCH'])
 def decrement_value(request, user_id):
