@@ -9,3 +9,4 @@ class Category(models.Model):
         blank=False,
         null=False,
     )
+    icon_url = models.CharField(max_length=200, null=True)
