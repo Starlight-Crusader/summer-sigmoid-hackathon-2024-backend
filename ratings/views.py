@@ -111,7 +111,7 @@ def recalc_avg(request, product_id):
     )
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def get_tinder_cards(request, category_id):
     serializer = GetTinderCardsSerialzier(data=request.data)
     serializer.is_valid(raise_exception=True)
